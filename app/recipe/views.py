@@ -31,3 +31,21 @@ class IngredientViewSet(BaseRecipeAttrViewSet):
     """Manage ingredients in the database"""
     queryset = models.Ingredient.objects.all()
     serializer_class = serializers.IngredientSerializer
+
+
+class RecipeViewset(viewsets.ModelViewSet):
+    """Manage recipes in the database"""
+    serializer_class = serializers.RecipeSerializer
+    queryset = models.Recipe.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_serializer_class(self):
+        """Return a appropriate serializer class"""
+        if self.action == 'retrieve':
+            return serializers.RecipeDetailSerializer
+        return self.serializer_class
+
+    def get_queryset(self):
+        """Retrive the recipes for the authenticate user"""
+        return self.queryset.filter(user=self.request.user).order_by('-id')
