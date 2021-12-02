@@ -49,3 +49,7 @@ class RecipeViewset(viewsets.ModelViewSet):
     def get_queryset(self):
         """Retrive the recipes for the authenticate user"""
         return self.queryset.filter(user=self.request.user).order_by('-id')
+
+    def perform_create(self, serializer):
+        """Create a new obj for the current auth user"""
+        serializer.save(user=self.request.user)
