@@ -101,7 +101,7 @@ class PrivateTagsAPITests(TestCase):
     def test_retrieve_tags_assigned_returns_unique(self):
         """Test filtering tags by assigned returns unique items"""
         tag = models.Tag.objects.create(user=self.user,
-                                         name='Breakfast')
+                                        name='Breakfast')
         models.Tag.objects.create(user=self.user,
                                   name='Breakfast')
         recipe1 = models.Recipe.objects.create(
